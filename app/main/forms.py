@@ -1,3 +1,7 @@
+from cgitb import text
+from operator import contains
+from tkinter import messagebox
+from typing import Text
 from flask import request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField
@@ -21,16 +25,14 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError(_('Please use a different username.'))
-
+                
 
 class EmptyForm(FlaskForm):
     submit = SubmitField('Submit')
 
-
 class PostForm(FlaskForm):
     post = TextAreaField(_l('Say something'), validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
-
 
 class SearchForm(FlaskForm):
     q = StringField(_l('Search'), validators=[DataRequired()])
@@ -41,7 +43,6 @@ class SearchForm(FlaskForm):
         if 'meta' not in kwargs:
             kwargs['meta'] = {'csrf': False}
         super(SearchForm, self).__init__(*args, **kwargs)
-
 
 class MessageForm(FlaskForm):
     message = TextAreaField(_l('Message'), validators=[

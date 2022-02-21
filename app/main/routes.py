@@ -32,7 +32,7 @@ def index():
         except LangDetectException:
             language = ''
         post = Post(body=form.post.data, author=current_user,
-                    language=language)
+                    language=language)                
         db.session.add(post)
         db.session.commit()
         flash(_('Your post is now live!'))
@@ -174,7 +174,7 @@ def search():
 def send_message(recipient):
     user = User.query.filter_by(username=recipient).first_or_404()
     form = MessageForm()
-    if form.validate_on_submit():
+    if not form.validate_on_submit():
         msg = Message(author=current_user, recipient=user,
                       body=form.message.data)
         db.session.add(msg)
@@ -218,6 +218,8 @@ def export_posts():
 @bp.route('/notifications')
 @login_required
 def notifications():
+    teste = ""
+    teste.__contains__
     since = request.args.get('since', 0.0, type=float)
     notifications = current_user.notifications.filter(
         Notification.timestamp > since).order_by(Notification.timestamp.asc())
@@ -226,3 +228,4 @@ def notifications():
         'data': n.get_data(),
         'timestamp': n.timestamp
     } for n in notifications])
+
