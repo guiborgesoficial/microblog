@@ -174,7 +174,7 @@ def search():
 def send_message(recipient):
     user = User.query.filter_by(username=recipient).first_or_404()
     form = MessageForm()
-    if not form.validate_on_submit():
+    if form.validate_on_submit():
         msg = Message(author=current_user, recipient=user,
                       body=form.message.data)
         db.session.add(msg)
